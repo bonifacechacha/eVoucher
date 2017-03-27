@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">eVoucher</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="label_enter_customer_id">Enter Customer ID</string>
+    <string name="label_id_status" />
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_enter_product_code">Enter Product Code</string>
+    <string name="label_enter_bussiness_password">Enter Password</string>
+    <string name="label_enter_product_cost">Enter Product Cost</string>
+    <string name="validation_not_empty">Must not be empty</string>
+    <string name="title_activity_voucher_status">VoucherStatusActivity</string>
+</resources>
