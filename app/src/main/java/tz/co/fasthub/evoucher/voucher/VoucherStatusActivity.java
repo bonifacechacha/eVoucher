@@ -45,7 +45,7 @@ public class VoucherStatusActivity extends EVoucherFragmentActivity {
         String productCost = getIntent().getStringExtra("productCost");
         String businessPassword = getIntent().getStringExtra("businessPassword");
 
-        String url = "http://evoucher.fasthub.co.tz/voucher/create";
+        String url = "http://evoucher.fasthub.co.tz:9092/voucher/create";
         RequestParams params = new RequestParams();
         params.put("customerID", customerID);
         params.put("productCode", productCode);
