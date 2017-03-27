@@ -51,3 +51,5 @@ project.properties
 gen-external-apklibs
 .idea
 app/.externalNativeBuild/
+gradlew
+gradlew.bat
