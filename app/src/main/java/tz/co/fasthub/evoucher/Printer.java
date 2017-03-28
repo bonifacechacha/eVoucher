@@ -94,7 +94,7 @@ public class Printer {
             }
 
         } catch (Exception ex) {
-            value += ex.toString() + "\n" + " InitPrinter \n";
+            value += ex.getMessage() + "\n" + "InitPrinter \n";
             Toast.makeText(activity, value, Toast.LENGTH_LONG).show();
             return false;
         }

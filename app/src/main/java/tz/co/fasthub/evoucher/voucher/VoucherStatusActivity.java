@@ -7,7 +7,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import javax.inject.Inject;
 
@@ -65,6 +68,12 @@ public class VoucherStatusActivity extends EVoucherFragmentActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 showStatus(statusCode, errorResponse);
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                showStatus(statusCode, null);
+            }
         });
     }
 
@@ -73,7 +82,12 @@ public class VoucherStatusActivity extends EVoucherFragmentActivity {
         switch (statusCode) {
             case HttpURLConnection.HTTP_OK:
                 statusTextView.setText("Success");
-                printReceipt(response);
+                try {
+                    printReceipt(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Timber.w(e,"Failed to get information from JSON response");
+                }
                 break;
             case HttpURLConnection.HTTP_UNAUTHORIZED:
                 statusTextView.setText("Rejected");
@@ -88,25 +102,20 @@ public class VoucherStatusActivity extends EVoucherFragmentActivity {
     }
 
 
-    private void printReceipt(JSONObject response) {
+    private void printReceipt(JSONObject response) throws JSONException {
         if (response == null) return;
 
-
-        String customerID = getIntent().getStringExtra("customerID");
-        String productCode = getIntent().getStringExtra("productCode");
-        String productCost = getIntent().getStringExtra("productCost");
-
-
         StringBuilder content = new StringBuilder()
-                .append(System.out.format("%12s%8s%12s\n", "","eVoucher",""))
-                .append(System.out.format("%8s%16s%8s\n", "","IFAKARA MOROGORO",""))
+                .append(String.format("%12s%8s%12s\n", "","eVoucher",""))
+                .append(String.format("%8s%16s%8s\n", "","IFAKARA MOROGORO",""))
+                .append(String.format("%8s%2s%22s\n", "TIME",":",response.getString("time")))
                 .append(" ------------------------------ \n")
-                .append(System.out.format("%8s%2s%22s\n", "FARMER",":",customerID))
-                .append(System.out.format("%8s%2s%22s\n", "SUPPLIER",":",""))
-                .append(System.out.format("%8s%2s%22s\n", "PRODUCT",":",productCode))
-                .append(System.out.format("%8s%2s%18s TZS\n", "COST",":",productCost))
-                .append(System.out.format("%8s%2s%22s\n", "CONTRIB",":",""))
-                .append(System.out.format("%8s%2s%22s\n", "REF",":",""))
+                .append(String.format("%8s%2s%22s\n", "FARMER",":",response.getString("customer")))
+                .append(String.format("%8s%2s%22s\n", "SUPPLIER",":",response.getString("supplier")))
+                .append(String.format("%8s%2s%22s\n", "PRODUCT",":",response.getString("product")))
+                .append(String.format("%8s%2s%18s TZS\n", "COST",":",response.getString("productCost")))
+                .append(String.format("%8s%2s%22s\n", "CONTRIB",":",response.getString("contribution")))
+                .append(String.format("%8s%2s%22s\n", "REF",":",response.getString("reference")))
                 .append(" ############################## \n");
 
         Timber.d(content.toString());
