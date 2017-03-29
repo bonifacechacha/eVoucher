@@ -1,20 +1,17 @@
 package tz.co.fasthub.evoucher;
 
+import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.squareup.otto.Bus;
-
+import com.tech.freak.wizardpager.model.AbstractWizardModel;
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import tz.co.fasthub.evoucher.util.PostFromAnyThreadBus;
-import tz.co.fasthub.evoucher.voucher.VoucherStatusActivity;
-import tz.co.fasthub.evoucher.voucher.step.CustomerCodeCaptureFragment;
 import tz.co.fasthub.evoucher.voucher.MainActivity;
-import tz.co.fasthub.evoucher.voucher.step.ProductCodeCaptureFragment;
-import tz.co.fasthub.evoucher.voucher.VoucherWizard;
+import tz.co.fasthub.evoucher.voucher.VoucherWizardModel;
 
 /**
  * @author Boniface Chacha
@@ -29,12 +26,7 @@ import tz.co.fasthub.evoucher.voucher.VoucherWizard;
                 //application
                 EVoucherApplication.class,
                 //activities
-                MainActivity.class,
-                VoucherStatusActivity.class,
-                //fragments
-                CustomerCodeCaptureFragment.class,
-                ProductCodeCaptureFragment.class,
-                VoucherWizard.class
+                MainActivity.class
         }
 )
 public class EVoucherModule {
@@ -81,4 +73,8 @@ public class EVoucherModule {
     }
 
 
+    @Provides
+    AbstractWizardModel providesWizardModel(Context context){
+        return new VoucherWizardModel(context);
+    }
 }

@@ -1,17 +1,16 @@
 package tz.co.fasthub.evoucher;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import com.squareup.otto.Bus;
 import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 
 /**
  * Created by bonifacechacha on 3/26/17.
  */
 
-public class EVoucherFragmentActivity extends FragmentActivity {
+public class EVoucherActivity extends AppCompatActivity {
 
     @Inject
     protected Bus eventBus;
